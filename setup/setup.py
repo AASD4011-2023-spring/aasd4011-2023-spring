@@ -104,7 +104,12 @@ def install_packages(venv_path:str, requirements_path:str, platform:str, shell:s
     import subprocess
     import sys
     print(f'{venv_path} - Installing packages...')
-    if (platform == 'Linux') | (platform == 'Darwin'):
+    if (platform == 'Linux'):
+        subprocess.run(f'{venv_path}/bin/pip install -r {requirements_path}', shell=True)
+    elif (platform == 'Darwin'):
+        directory, filename = os.path.split(requirements_path)
+        new_filename = 'macintosh_' + filename
+        requirements_path = os.path.join(directory, new_filename)
         subprocess.run(f'{venv_path}/bin/pip install -r {requirements_path}', shell=True)
     elif platform == 'Windows':
         subprocess.run(fr'{venv_path}\Scripts\pip install -r {requirements_path}', shell=True)
